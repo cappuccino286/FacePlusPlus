@@ -1,0 +1,22 @@
+extends layout
+
+block content
+    container
+        .row
+            .col-md-5.col-sm-4
+                img.img-fluid(src= url_img, alt='')
+            .col-md-5.col-sm-4
+                img.img-fluid(src= new_img, alt='')
+            .col-md-2.col-sm-4
+                each face in faces
+                    .alert.alert-success(role='alert')
+                        h4.alert-heading Info!
+                        p Gender: #{face.attributes.gender.value} - Age: #{face.attributes.age.value} 
+                        p Skinstatus: 
+                            ul 
+                                li dark_circle: #{face.attributes.skinstatus.dark_circle} 
+                                li stain: #{face.attributes.skinstatus.stain} 
+                                li acne: #{face.attributes.skinstatus.acne} 
+                                li health: #{face.attributes.skinstatus.health}  
+        
+        

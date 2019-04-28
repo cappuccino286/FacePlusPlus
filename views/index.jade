@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  container
+    != messages()
+    .row.align-items-center
+      .col-6
+        h1.text-danger Face++
+        form(method='Post', action='face-detection')
+          input.form-control(name='image_url',placeholder='image_url', type='text')
+          br
+          input.form-control(type='submit', value='Search',class='btn-primary')
+      .col-6
+        img.img-fluid(src='./images/bg.png', alt='background')
+                
