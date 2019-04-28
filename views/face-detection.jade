@@ -12,6 +12,15 @@ block content
                     .alert.alert-success(role='alert')
                         h4.alert-heading Info!
                         p Gender: #{face.attributes.gender.value} - Age: #{face.attributes.age.value} 
+                        p Emotion:
+                            ul 
+                                li sadness: #{face.attributes.emotion.sadness} 
+                                li neutral: #{face.attributes.emotion.neutral} 
+                                li disgust: #{face.attributes.emotion.disgust} 
+                                li anger: #{face.attributes.emotion.anger}  
+                                li surprise: #{face.attributes.emotion.surprise}  
+                                li fear: #{face.attributes.emotion.fear}  
+                                li happiness: #{face.attributes.emotion.happiness}  
                         p Skinstatus: 
                             ul 
                                 li dark_circle: #{face.attributes.skinstatus.dark_circle} 

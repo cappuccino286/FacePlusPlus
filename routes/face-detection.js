@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/',function(req,res){
-  var url =  "https://faceplusplus-faceplusplus.p.rapidapi.com/facepp/v3/detect?return_attributes=gender%2Cage%2Cskinstatus&image_url=";
+  var url =  "https://faceplusplus-faceplusplus.p.rapidapi.com/facepp/v3/detect?return_attributes=gender%2Cage%2Cskinstatus%2Cemotion&image_url=";
   var image_url = req.body.image_url;
   request.post({
      url: url+image_url,
@@ -17,9 +17,6 @@ router.post('/',function(req,res){
         "X-RapidAPI-Key":"32b922efb4msh6cbcd9ae7090e69p1cac76jsn8d165c7ddb46"
      }
   }, function (err, response, body) {
-     // console.log('error:', err); // Print the error if one occurred
-     // console.log('statusCode:', res && res.statusCode); // Print the response status code if a response was received
-     // console.log('body:', body1);
      var body = JSON.parse(body);
      if(response.statusCode == 200){
         //Canvas
