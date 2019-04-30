@@ -2,9 +2,15 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 main{
-  padding: 50px;
+  padding: 50px 50px 1px 50px;
+  min-height: 788px;
+  background-image: url('../images/bg.jpg');
+  background-size: contain;
 }
 #messages li{
   color:red;
   font-weight: bold;
+}
+#confidence{
+  height:150px;
 }

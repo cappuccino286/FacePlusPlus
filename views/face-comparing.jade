@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    container
+        #face-comparing.row
+            .col-5
+                .row.justify-content-center
+                    img.img-fluid(src= new_img1, alt='image for first URL')
+            #confidence.col-2
+                .row.justify-content-center
+                    .alert.alert-danger.text-center 
+                        h3.alert-heading Is same person?
+                        if confidence >= 80
+                            | Probability very high
+                        else if confidence >=50
+                            | Probability low
+                        else
+                            | Probability very low
+                        h2.mb-0 #{confidence} %
+            .col-5
+                .row.justify-content-center
+                    img.img-fluid(src= new_img2, alt='image for second URL')
+            

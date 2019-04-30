@@ -6,60 +6,38 @@ const storage = multer.memoryStorage();
 const { createCanvas, loadImage } = require('canvas');
 var upload = multer({ dest: './uploads', storage: storage });
 
-const URL = "https://faceplusplus-faceplusplus.p.rapidapi.com/facepp/v3/detect";
-const HEADERS = {
-   'Content-Type': "application/x-www-form-urlencoded",
-   "X-RapidAPI-Host": "faceplusplus-faceplusplus.p.rapidapi.com",
-   "X-RapidAPI-Key": "32b922efb4msh6cbcd9ae7090e69p1cac76jsn8d165c7ddb46"
-};
-const RETURN_ATTRIBUTES = "gender,age,emotion,skinstatus";
+const URL = "https://api-us.faceplusplus.com/facepp/v3/compare";
+const API_KEY = "N6XmyTUrxjI5Q6TBIqiIjx7FIlHSPIJJ";
+const API_SECRET = "uikapL6u72QPPnK23JNbEVwF7SYlOfU8";
+// const HEADERS = {
+//    'Content-Type': "application/x-www-form-urlencoded",
+//    "X-RapidAPI-Host": "faceplusplus-faceplusplus.p.rapidapi.com",
+//    "X-RapidAPI-Key": "32b922efb4msh6cbcd9ae7090e69p1cac76jsn8d165c7ddb46"
+// };
+// const RETURN_ATTRIBUTES = "gender,age,emotion,skinstatus";
 const CANVAS_COLOR = '#28a745';
 router.get('/', function (req, res, next) {
    res.render('face-detection');
 });
 
-router.post('/', upload.single('imgUpload'), function (req, res, next) {
-   if (req.file) {
-      var image_base64 = 'data:image/jpeg;base64,' + req.file.buffer.toString("base64");
-   } else {
-      req.flash('error', "No File Uploaded...");
-      res.render('index');
-   }
+router.post('/', function (req, res) {
+   var image_url1 = req.body.image_url1;
+   var image_url2 = req.body.image_url2;
    request.post({
       url: URL,
-      headers: HEADERS,
-      form: { image_base64: image_base64, return_attributes: RETURN_ATTRIBUTES }
-   }, function (err, response, body) {
-      var body = JSON.parse(body);
+      form: { image_url1: image_url1, image_url2: image_url2, api_key: API_KEY, api_secret: API_SECRET }
+   }, async function (err, response, body) {
+      console.log("body: "+ body);
       if (response.statusCode == 200) {
-         loadImage(image_base64).then((image) => {
-            var faces = body.faces;
-            var new_img = hightlightFaces(faces,image);
-            res.render('face-detection', { url_img: image_base64, new_img: new_img, faces: faces });
-         });
-      } else {
-         req.flash('statusCode', response && response.statusCode);
-         req.flash('error', body.error_message);
-         res.redirect('index');
-      }
-   });
-});
-
-router.post('/face-detection-url', function (req, res) {
-   var image_url = req.body.image_url;
-   request.post({
-      url: URL,
-      headers: HEADERS,
-      form: { image_url: image_url, return_attributes: RETURN_ATTRIBUTES }
-   }, function (err, response, body) {
-      var body = JSON.parse(body);
-      if (response.statusCode == 200) {
-         loadImage(image_url).then((image) => {
-            var faces = body.faces;
-            console.log(faces);
-            var new_img = hightlightFaces(faces,image);
-            res.render('face-detection', { url_img: image_url, new_img: new_img, faces: faces });
-         });
+         var body = JSON.parse(body);
+         var confidence = body.confidence;
+         var faces1 = body.faces1;
+         var faces2 = body.faces2;
+         var image1 = await loadImage(image_url1);
+         var new_img1 = hightlightFaces(faces1,image1);
+         var image2 = await loadImage(image_url2);
+         var new_img2 = hightlightFaces(faces2,image2);
+         res.render('face-comparing', { new_img1: new_img1, new_img2: new_img2, confidence: confidence });
       } else {
          req.flash('statusCode', response && response.statusCode);
          req.flash('error', body.error_message);
@@ -106,13 +84,13 @@ function hightlightFaces(faces,image) {
       context.lineTo(origX+30, origY + face_rectangle.height+textHeight);
       context.stroke();
    });
-   const fs = require('fs');
-   console.log(image);
-   console.log(__dirname);
-   const out = fs.createWriteStream(__dirname + '/test.png')
-   const stream = canvas.createPNGStream();
-   stream.pipe(out);
-   out.on('finish', () =>  console.log('The PNG file was created.'))
+   // const fs = require('fs');
+   // console.log(image);
+   // console.log(__dirname);
+   // const out = fs.createWriteStream(__dirname + '/test.png')
+   // const stream = canvas.createPNGStream();
+   // stream.pipe(out);
+   // out.on('finish', () =>  console.log('The PNG file was created.'))
    return canvas.toDataURL();
 }
 module.exports = router;

@@ -2,27 +2,43 @@ extends layout
 
 block content
   container
-    != messages()
-    .row.align-items-center
-      .col-6
-        h1.text-danger Face++
-        
-        form.form-row(method='post',action='face-detection',enctype='multipart/form-data')
+    .jumbotron
+      != messages()
+      .row.align-items-center
+        .col-6
+          h1.text-danger Face Detection Demo
+          form.form-row(method='post',action='face-detection',enctype='multipart/form-data')
             .col-auto
               label Via image upload
             .col-7
-                input#imgUpload.form-control-file(type='file', name="imgUpload")
+              input#imgUpload.form-control-file(type='file', name="imgUpload")
             .col-auto
               input.form-control.btn-primary(type='submit', value='Detect')
-        br    
+          br    
+          
+          form.form-row(method='Post', action='face-detection/face-detection-url')
+            .col-auto
+              label Via image url:  
+            .col-7
+              input.form-control(name='image_url',placeholder='image_url', type='text')
+            .col-auto
+              input.form-control.btn-primary(type='submit', value='Detect via URL')
+        .col-6
+          img.img-fluid(src='../images/face-detection.png', alt='background')
+    .jumbotron
+      .row.align-items-center
+        .col-6
+          img.img-fluid(src='../images/face-comparing.png', alt='background')
+        .col-6
+          h1.text-danger Face Comparing Demo
+          form(method='Post', action='face-comparing')
+            .form-group.row
+              label.col-sm-2.col-form-label Image 1 
+              .col-sm-10
+                input.form-control(name='image_url1',placeholder='image_url1', type='text')
+            .form-group.row
+              label.col-sm-2.col-form-label Image 2 
+              .col-sm-10
+                input.form-control(name='image_url2',placeholder='image_url2', type='text')
+            button.btn.btn-primary(type='submit') Compare
         
-        form.form-row(method='Post', action='face-detection/face-detection-url')
-          .col-auto
-            label Via image url:  
-          .col-7
-            input.form-control(name='image_url',placeholder='image_url', type='text')
-          .col-auto
-            input.form-control.btn-primary(type='submit', value='Detect via URL')
-      .col-6
-        img.img-fluid(src='../images/bg.png', alt='background')
-                

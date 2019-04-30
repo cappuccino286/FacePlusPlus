@@ -3,29 +3,33 @@ extends layout
 block content
     container
         .row
-            .col-md-5.col-sm-4
+            .col-6
                 img.img-fluid(src= url_img, alt='')
-            .col-md-5.col-sm-4
+            .col-6
                 img.img-fluid(src= new_img, alt='')
-            .col-md-2.col-sm-4
-                each face in faces
-                    .alert.alert-success(role='alert')
-                        h4.alert-heading Info!
-                        p Gender: #{face.attributes.gender.value} - Age: #{face.attributes.age.value} 
-                        p Emotion:
-                            ul 
-                                li sadness: #{face.attributes.emotion.sadness} 
-                                li neutral: #{face.attributes.emotion.neutral} 
-                                li disgust: #{face.attributes.emotion.disgust} 
-                                li anger: #{face.attributes.emotion.anger}  
-                                li surprise: #{face.attributes.emotion.surprise}  
-                                li fear: #{face.attributes.emotion.fear}  
-                                li happiness: #{face.attributes.emotion.happiness}  
-                        p Skinstatus: 
-                            ul 
-                                li dark_circle: #{face.attributes.skinstatus.dark_circle} 
-                                li stain: #{face.attributes.skinstatus.stain} 
-                                li acne: #{face.attributes.skinstatus.acne} 
-                                li health: #{face.attributes.skinstatus.health}  
-        
-        
+        br
+        each face, index in faces
+            .alert.alert-success(role='alert')
+                h4.alert-heading Face  #{index+1}
+                if face.attributes
+                    .row
+                        .col-4
+                            p #[strong Gender]: #{face.attributes.gender.value}
+                            P #[strong Age]: #{face.attributes.age.value} 
+                        .col-4
+                            p #[strong Emotion]:
+                                ul 
+                                    li sadness: #{face.attributes.emotion.sadness} 
+                                    li neutral: #{face.attributes.emotion.neutral} 
+                                    li disgust: #{face.attributes.emotion.disgust} 
+                                    li anger: #{face.attributes.emotion.anger}  
+                                    li surprise: #{face.attributes.emotion.surprise}  
+                                    li fear: #{face.attributes.emotion.fear}  
+                                    li happiness: #{face.attributes.emotion.happiness}  
+                        .col-4
+                            p #[strong Skinstatus]: 
+                                ul 
+                                    li dark_circle: #{face.attributes.skinstatus.dark_circle} 
+                                    li stain: #{face.attributes.skinstatus.stain} 
+                                    li acne: #{face.attributes.skinstatus.acne} 
+                                    li health: #{face.attributes.skinstatus.health}  
